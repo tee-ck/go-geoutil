@@ -11,7 +11,7 @@ var b32maps = map[byte]int{
 	's': 0x18, 't': 0x19, 'u': 0x1a, 'v': 0x1b, 'w': 0x1c, 'x': 0x1d, 'y': 0x1e, 'z': 0x1f,
 }
 
-// GeoHashDecode decodes a geohash string into a point.
+// GeoHashDecode decodes a geohash bytearray into a point.
 func GeoHashDecode(geohash []byte) (p *Point) {
 	// from: https://github.com/vinsci/geohash
 	p = new(Point)
@@ -46,6 +46,7 @@ func GeoHashDecode(geohash []byte) (p *Point) {
 	return p
 }
 
+// GeoHashEncode encodes a point into a geohash bytearray.
 func GeoHashEncode(p *Point, precision int) []byte {
 	minLat, maxLat, minLng, maxLng := -90.0, 90.0, -180.0, 180.0
 	if precision < 1 || precision > 22 {
