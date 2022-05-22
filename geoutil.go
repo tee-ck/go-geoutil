@@ -20,8 +20,8 @@ func (p *Point) DistanceTo(dist *Point) Distance {
 }
 
 // BoundaryOf returns the boundary of a point. The boundary is a square.
-func (p *Point) BoundaryOf(meters float64) (rect *Boundary) {
-	return GetBoundary(p, meters)
+func (p *Point) BoundaryOf(distance Distance) (rect *Boundary) {
+	return GetBoundary(p, distance)
 }
 
 func (p *Point) String() string {
@@ -36,6 +36,11 @@ func (p *Point) GeoHashEncode(precision ...int) []byte {
 // GeoHashDecode decode from a geohash.
 func (p *Point) GeoHashDecode(geohash []byte) {
 	*p = *GeoHashDecode(geohash)
+}
+
+// NewPoint returns a new Point with the given latitude and longitude.
+func NewPoint(lat float64, lng float64) *Point {
+	return &Point{Lat: lat, Lng: lng}
 }
 
 // Boundary represents a rectangular area in 2D space.
@@ -53,11 +58,13 @@ func (r *Boundary) String() string {
 type Distance float64
 
 const (
-	Meter        = 1
-	Feet         = 0.3048 * Meter
-	Kilometer    = 1000 * Meter
-	Mile         = 1609.344 * Meter
-	NauticalMile = 1852 * Meter
+	Meter        Distance = 1
+	Inch         Distance = 0.0254
+	Feets        Distance = 0.3048
+	Yard         Distance = 0.9144
+	Kilometer    Distance = 1000
+	Mile         Distance = 1609.344
+	NauticalMile Distance = 1852
 )
 
 // Meters returns the distance in meters.
@@ -65,22 +72,37 @@ func (d Distance) Meters() float64 {
 	return float64(d)
 }
 
+// Inches returns the distance in inches.
+func (d Distance) Inches() float64 {
+	return float64(d) / float64(Inch)
+}
+
+// Yards returns the distance in yards.
+func (d Distance) Yards() float64 {
+	return float64(d) / float64(Yard)
+}
+
 // Kilometers returns the distance in kilometers.
 func (d Distance) Kilometers() float64 {
-	return float64(d) / Kilometer
+	return float64(d) / float64(Kilometer)
 }
 
 // Miles returns the distance in miles.
 func (d Distance) Miles() float64 {
-	return float64(d) / Mile
+	return float64(d) / float64(Mile)
 }
 
-// Feet returns the distance in feet.
-func (d Distance) Feet() float64 {
-	return float64(d) / Feet
+// Feets returns the distance in feet.
+func (d Distance) Feets() float64 {
+	return float64(d) / float64(Feets)
 }
 
 // NauticalMiles returns the distance in nautical miles.
 func (d Distance) NauticalMiles() float64 {
-	return float64(d) / NauticalMile
+	return float64(d) / float64(NauticalMile)
+}
+
+// String returns the distance in meters as a string.
+func (d Distance) String() string {
+	return fmt.Sprintf("%.2f meters", d.Meters())
 }

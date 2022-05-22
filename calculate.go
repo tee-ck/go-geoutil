@@ -5,7 +5,8 @@ import (
 )
 
 const (
-	EarthRadius = Distance(6370996.81) // meters
+	// EarthRadius is the radius of the earth in meters.
+	EarthRadius = Distance(6370996.81)
 )
 
 // radians converts degrees to radians.
@@ -14,20 +15,23 @@ func radians(degrees float64) float64 {
 }
 
 // GetBoundary returns the boundary of a circle.
-func GetBoundary(point *Point, meters float64) (rect *Boundary) {
+func GetBoundary(point *Point, distance Distance) (rect *Boundary) {
+	ratio := distance.Meters() / 111_000.0
+	cLat := math.Cos(radians(point.Lat))
+
 	return &Boundary{
 		Min: Point{
-			Lat: point.Lat - (meters / 111_000.0),
-			Lng: point.Lng - (meters / 111_000.0 / math.Cos(radians(point.Lat))),
+			Lat: point.Lat - (ratio),
+			Lng: point.Lng - (ratio / cLat),
 		},
 		Max: Point{
-			Lat: point.Lat + (meters / 111_000.0),
-			Lng: point.Lng + (meters / 111_000.0 / math.Cos(radians(point.Lat))),
+			Lat: point.Lat + (ratio),
+			Lng: point.Lng + (ratio / cLat),
 		},
 	}
 }
 
-// GetDistance returns the distance between two points in meters.
+// GetDistance returns the distance between two points.
 func GetDistance(p1, p2 *Point) Distance {
 	rLat1 := radians(p1.Lat)
 	rLat2 := radians(p2.Lat)
@@ -46,7 +50,7 @@ func haversine(theta float64) float64 {
 	return (1 - math.Cos(theta)) / 2
 }
 
-// GetDistanceHaversine returns the distance between two points in meters.
+// GetDistanceHaversine returns the distance between two points using the haversine formula.
 func GetDistanceHaversine(point1, point2 *Point) Distance {
 	rLat1 := radians(point1.Lat)
 	rLat2 := radians(point2.Lat)

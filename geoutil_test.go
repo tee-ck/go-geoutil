@@ -25,10 +25,10 @@ func BenchmarkGetDistanceHaversine(b *testing.B) {
 
 func BenchmarkGetBoundary(b *testing.B) {
 	p := &Point{3.3000716307302, 101.57032339298446}
-	meters := 10.0
+	distance := 10.0 * Meter
 
 	for i := 0; i < b.N; i++ {
-		GetBoundary(p, meters)
+		GetBoundary(p, distance)
 	}
 }
 
@@ -64,9 +64,9 @@ func TestGetDistanceHaversine(t *testing.T) {
 
 func TestPoint_BoundaryOf(t *testing.T) {
 	p := &Point{3.3000716307302, 101.57032339298446}
-	meters := 10.0
+	distance := 10.0 * Meter
 
-	rect := p.BoundaryOf(meters)
+	rect := p.BoundaryOf(distance)
 	fmt.Println(rect)
 	fmt.Println(p.DistanceTo(&Point{rect.Min.Lat, rect.Min.Lng}))
 	fmt.Println(p.DistanceTo(&Point{rect.Max.Lat, rect.Max.Lng}))
