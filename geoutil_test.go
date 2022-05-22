@@ -140,15 +140,14 @@ func TestGeoHashEncode(t *testing.T) {
 	p := NewPoint(39.9257460000, 116.5998310000)
 
 	for i := 1; i < 23; i++ {
-		fmt.Println(p, ":", string(GeoHashEncode(p, i)))
+		fmt.Println(p, ":", i, ":", GeoHashEncode(p, i))
 	}
-	fmt.Println(int64(90e12))
 }
 
 func TestGeoHashDecode(t *testing.T) {
 	geohash := "w284z2c221fq"
 
-	fmt.Println(string(geohash), ":", GeoHashDecode(geohash))
+	fmt.Println(geohash, ":", GeoHashDecode(geohash))
 }
 
 func init() {
