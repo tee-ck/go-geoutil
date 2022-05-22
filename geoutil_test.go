@@ -51,10 +51,8 @@ func BenchmarkGeoHashEncode8(b *testing.B) {
 }
 
 func BenchmarkGeoHashDecode8(b *testing.B) {
-	geohash := []byte("w284z2c2")
-
 	for i := 0; i < b.N; i++ {
-		GeoHashDecode(geohash)
+		GeoHashDecode("w284z2c2")
 	}
 }
 
@@ -67,10 +65,8 @@ func BenchmarkGeoHashEncode12(b *testing.B) {
 }
 
 func BenchmarkGeoHashDecode12(b *testing.B) {
-	geohash := []byte("w284z2c221fq")
-
 	for i := 0; i < b.N; i++ {
-		GeoHashDecode(geohash)
+		GeoHashDecode("w284z2c221fq")
 	}
 }
 
@@ -83,10 +79,8 @@ func BenchmarkGeoHashEncode22(b *testing.B) {
 }
 
 func BenchmarkGeoHashDecode22(b *testing.B) {
-	geohash := []byte("w284z2c221fqjf5yt97q9y")
-
 	for i := 0; i < b.N; i++ {
-		GeoHashDecode(geohash)
+		GeoHashDecode("w284z2c221fqjf5yt97q9y")
 	}
 }
 
@@ -152,7 +146,7 @@ func TestGeoHashEncode(t *testing.T) {
 }
 
 func TestGeoHashDecode(t *testing.T) {
-	geohash := []byte("w284z2c221fq")
+	geohash := "w284z2c221fq"
 
 	fmt.Println(string(geohash), ":", GeoHashDecode(geohash))
 }

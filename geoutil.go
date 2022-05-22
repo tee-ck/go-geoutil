@@ -29,12 +29,12 @@ func (p *Point) String() string {
 }
 
 // GeoHashEncode encode into a geohash.
-func (p *Point) GeoHashEncode(precision int) []byte {
+func (p *Point) GeoHashEncode(precision int) string {
 	return GeoHashEncode(p, precision)
 }
 
 // GeoHashDecode decode from a geohash.
-func (p *Point) GeoHashDecode(geohash []byte) {
+func (p *Point) GeoHashDecode(geohash string) {
 	*p = *GeoHashDecode(geohash)
 }
 
