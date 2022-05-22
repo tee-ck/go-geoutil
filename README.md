@@ -1,6 +1,6 @@
 # go-geoutil
 
-## A Go library for geolocation utilities.
+A Go library for geolocation utilities. It provides a set of functions to measure distances.
 
 # Installation
 

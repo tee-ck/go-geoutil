@@ -8,10 +8,10 @@ import (
 // Point represents a point in 2D space.
 type Point struct {
 	// Lat latitude in degrees.
-	Lat float64 `json:"lat" bson:"lat" yaml:"lat" toml:"lat" xml:"lat"`
+	Lat float64 `json:"lat" bson:"lat" yaml:"lat" toml:"lat" xml:"lat,attr"`
 
 	// Lng longitude in degrees.
-	Lng float64 `json:"lng" bson:"lng" yaml:"lng" toml:"lng" xml:"lng"`
+	Lng float64 `json:"lng" bson:"lng" yaml:"lng" toml:"lng" xml:"lng,attr"`
 }
 
 // DistanceTo returns the distance between two points.
