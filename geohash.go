@@ -1,9 +1,5 @@
 package geoutil
 
-/*
-source: https://github.com/vinsci/geohash
-*/
-
 // b32chars is the base32 character set used by geohash.
 var b32chars = []byte("0123456789bcdefghjkmnpqrstuvwxyz")
 
@@ -17,6 +13,7 @@ var b32maps = map[byte]int{
 
 // GeoHashDecode decodes a geohash string into a point.
 func GeoHashDecode(geohash []byte) (p *Point) {
+	// from: https://github.com/vinsci/geohash
 	p = new(Point)
 	minLat, maxLat, minLng, maxLng := -90.0, 90.0, -180.0, 180.0
 	even := true
