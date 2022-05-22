@@ -49,51 +49,49 @@ func GeoHashDecode(geohash []byte) (p *Point) {
 	return p
 }
 
-// GeoHashEncode encode a point to geohash
-func GeoHashEncode(p *Point, precision ...int) []byte {
+func GeoHashEncode(p *Point, precision int) []byte {
 	minLat, maxLat, minLng, maxLng := -90.0, 90.0, -180.0, 180.0
-	if len(precision) == 0 {
-		precision = []int{12}
+	if precision < 1 || precision > 22 {
+		precision = 12
 	}
-	if precision[0] < 1 || precision[0] > 22 {
-		precision[0] = 12
-	}
+	geohash := make([]byte, precision)
 
-	geohash := make([]byte, 0, precision[0])
-	bits := []byte{16, 8, 4, 2, 1}
+	midLat, midLng := (minLat+maxLat)/2, (minLng+maxLng)/2
+	for idx, bit := 0, 1; idx < precision; midLat, midLng = (minLat+maxLat)/2, (minLng+maxLng)/2 {
+		bit <<= 1
+		if p.Lng > midLng {
+			bit |= 0b1
+			minLng = midLng
 
-	bit := 0
-	ch := byte(0)
-
-	even := true
-	for len(geohash) < precision[0] {
-		if even {
-			mid := (minLng + maxLng) / 2
-			if p.Lng > mid {
-				ch |= bits[bit]
-				minLng = mid
-
-			} else {
-				maxLng = mid
-			}
 		} else {
-			mid := (minLat + maxLat) / 2
-			if p.Lat > mid {
-				ch |= bits[bit]
-				minLat = mid
+			maxLng = midLng
+		}
 
-			} else {
-				maxLat = mid
+		if bit > 0b11111 {
+			geohash[idx] = b32chars[bit&0b11111]
+			idx, bit = idx+1, 1
+
+			if idx >= precision {
+				break
 			}
 		}
 
-		even = !even
-		if bit < 4 {
-			bit++
+		bit <<= 1
+		if p.Lat > midLat {
+			bit |= 0b1
+			minLat = midLat
 
 		} else {
-			geohash = append(geohash, b32chars[ch])
-			bit, ch = 0, 0
+			maxLat = midLat
+		}
+
+		if bit > 0b11111 {
+			geohash[idx] = b32chars[bit&0b11111]
+			idx, bit = idx+1, 1
+
+			if idx >= precision {
+				break
+			}
 		}
 	}
 

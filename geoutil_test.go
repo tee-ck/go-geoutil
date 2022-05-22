@@ -2,6 +2,7 @@ package geoutil
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 )
 
@@ -41,7 +42,23 @@ func BenchmarkGetBoundary(b *testing.B) {
 	}
 }
 
-func BenchmarkGeoHashEncode(b *testing.B) {
+func BenchmarkGeoHashEncode8(b *testing.B) {
+	p := NewPoint(3.300071631, 101.570323393)
+
+	for i := 0; i < b.N; i++ {
+		GeoHashEncode(p, 8)
+	}
+}
+
+func BenchmarkGeoHashDecode8(b *testing.B) {
+	geohash := []byte("w284z2c2")
+
+	for i := 0; i < b.N; i++ {
+		GeoHashDecode(geohash)
+	}
+}
+
+func BenchmarkGeoHashEncode12(b *testing.B) {
 	p := NewPoint(3.300071631, 101.570323393)
 
 	for i := 0; i < b.N; i++ {
@@ -49,8 +66,24 @@ func BenchmarkGeoHashEncode(b *testing.B) {
 	}
 }
 
-func BenchmarkGeoHashDecode(b *testing.B) {
+func BenchmarkGeoHashDecode12(b *testing.B) {
 	geohash := []byte("w284z2c221fq")
+
+	for i := 0; i < b.N; i++ {
+		GeoHashDecode(geohash)
+	}
+}
+
+func BenchmarkGeoHashEncode22(b *testing.B) {
+	p := NewPoint(3.300071631, 101.570323393)
+
+	for i := 0; i < b.N; i++ {
+		GeoHashEncode(p, 22)
+	}
+}
+
+func BenchmarkGeoHashDecode22(b *testing.B) {
+	geohash := []byte("w284z2c221fqjf5yt97q9y")
 
 	for i := 0; i < b.N; i++ {
 		GeoHashDecode(geohash)
@@ -109,13 +142,21 @@ func TestPoint_BoundaryOf(t *testing.T) {
 }
 
 func TestGeoHashEncode(t *testing.T) {
-	p := NewPoint(3.3000716307302, 101.57032339298446)
+	//p := NewPoint(3.3000716307302, 101.57032339298446)
+	p := NewPoint(39.9257460000, 116.5998310000)
 
-	fmt.Println(p, ":", string(GeoHashEncode(p, 12)))
+	for i := 1; i < 23; i++ {
+		fmt.Println(p, ":", string(GeoHashEncode(p, i)))
+	}
+	fmt.Println(int64(90e12))
 }
 
 func TestGeoHashDecode(t *testing.T) {
 	geohash := []byte("w284z2c221fq")
 
 	fmt.Println(string(geohash), ":", GeoHashDecode(geohash))
+}
+
+func init() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
 }

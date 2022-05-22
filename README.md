@@ -34,11 +34,16 @@ goos: linux
 goarch: amd64
 pkg: github.com/tee-ck/go-geoutil
 cpu: 12th Gen Intel(R) Core(TM) i5-12600K
-BenchmarkGetDistance-16                 10000000                37.40 ns/op            0 B/op          0 allocs/op
-BenchmarkGetDistanceHaversine-16        10000000                36.15 ns/op            0 B/op          0 allocs/op
-BenchmarkGetBoundary-16                 10000000                18.12 ns/op           32 B/op          1 allocs/op
-BenchmarkGeoHashEncode-16               10000000                87.57 ns/op           16 B/op          1 allocs/op
-BenchmarkGeoHashDecode-16               10000000               184.6 ns/op            16 B/op          1 allocs/op
+BenchmarkGetDistance-16                 10000000                36.88 ns/op            0 B/op          0 allocs/op
+BenchmarkFastGetDistance-16             10000000                 6.897 ns/op           0 B/op          0 allocs/op
+BenchmarkGetDistanceHaversine-16        10000000                36.40 ns/op            0 B/op          0 allocs/op
+BenchmarkGetBoundary-16                 10000000                18.00 ns/op           32 B/op          1 allocs/op
+BenchmarkGeoHashEncode8-16              10000000                43.01 ns/op            8 B/op          1 allocs/op
+BenchmarkGeoHashDecode8-16              10000000               124.2 ns/op            16 B/op          1 allocs/op
+BenchmarkGeoHashEncode12-16             10000000                65.02 ns/op           16 B/op          1 allocs/op
+BenchmarkGeoHashDecode12-16             10000000               180.8 ns/op            16 B/op          1 allocs/op
+BenchmarkGeoHashEncode22-16             10000000               108.5 ns/op            24 B/op          1 allocs/op
+BenchmarkGeoHashDecode22-16             10000000               332.9 ns/op            16 B/op          1 allocs/op
 PASS
-ok      github.com/tee-ck/go-geoutil    3.645s
+ok      github.com/tee-ck/go-geoutil    9.537s
 ```
